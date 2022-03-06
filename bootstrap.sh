@@ -53,7 +53,6 @@ if [[ \`id -gn\` != "docker" ]]; then
 	exit
 fi
 EOF
-sudo service docker start
 
 # grab repository
 cd ~

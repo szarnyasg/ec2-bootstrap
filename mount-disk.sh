@@ -13,4 +13,3 @@ sudo systemctl stop docker
 sudo mkdir -p /etc/docker
 echo '{ "data-root": "/data/docker" }' | sudo tee /etc/docker/daemon.json > /dev/null
 sudo systemctl start docker
-docker run hello-world
