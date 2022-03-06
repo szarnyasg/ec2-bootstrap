@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 # mount NVMe disk
 export NVME_DEVICE=/dev/nvme1n1
 sudo mkfs -t ext4 ${NVME_DEVICE}

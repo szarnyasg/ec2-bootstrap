@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 # prompt
 cat << EOF >> ~/.bashrc
 parse_git_branch() {
@@ -34,13 +36,11 @@ cat << EOF >> ~/.gitconfig
 	root = rev-parse --show-toplevel
 EOF
 
-sudo dnf install -y tmux
+# packages
+sudo dnf install -y tmux wget git docker htop vim maven python3-pip
 
-# go to tmux
 # SELinux can get in the way of benchmarking, consider disabling it
 echo "sudo setenforce 0" >> ~/.bashrc
-sudo dnf upgrade -y
-sudo dnf install -y htop git wget zstd docker mc vim the_silver_searcher nmon fzf maven python3-pip
 
 # grab repository
 git clone https://github.com/szarnyasg/ec2-bootstrap
@@ -49,4 +49,3 @@ curl -s https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
 # reboot to make Docker work
 sudo gpasswd -a ${USER} docker
 sudo reboot
-

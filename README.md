@@ -9,13 +9,5 @@ curl -s https://raw.githubusercontent.com/szarnyasg/ec2-bootstrap/main/bootstrap
 The script will be placed to `~/ec2-bootstrap`. So, run:
 
 ```bash
-cd ~/ec2-bootstrap
-./mount-disk.sh
-./init-ldbc.sh
-```
-
-While these run, in another `tmux` pane, you can start building the Umbra container.
-
-```bash
-./build-umbra-container.sh ${UMBRA_URL}
+~/ec2-bootstrap/init.sh
 ```

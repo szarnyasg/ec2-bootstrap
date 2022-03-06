@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 if [ $# -eq 0 ]; then
     echo "Usage: init-umbra.sh <UMBRA_URL>"
 fi
