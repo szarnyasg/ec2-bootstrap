@@ -58,7 +58,7 @@ EOF
 cat << EOF >> ~/.bashrc
 alias bi="cd /data/ldbc_snb_bi"
 alias pg="cd /data/ldbc_snb_bi/paramgen"
-alias datagen="cd /data/ldbc_snb_datagen"
+alias datagen="cd /data/ldbc_snb_datagen_spark"
 alias ec2="cd ~/ec2-bootstrap"
 EOF
 
