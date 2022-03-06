@@ -1,6 +1,9 @@
 # ec2-bootstrap
 
-Fedora 35 x86_64 AMI: `ami-0133ad8c5d900ddef`
+Script to bootstrap EC2 boxes for LDBC benchmark.
+:warning: The script puts my public keys on the machine.
+
+Fedora 35 x86_64 AMI: `ami-0133ad8c5d900ddef`.
 
 ```bash
 curl -s https://raw.githubusercontent.com/szarnyasg/ec2-bootstrap/main/bootstrap.sh | bash && \
@@ -12,5 +15,5 @@ The script will install the required packages, set up Docker and open a `tmux` s
 Notably, you need to build Umbra manually:
 
 ```
-~/ec2-bootstrap/build-umbra-container provide_umbra_url_here
+~/ec2-bootstrap/build-umbra-container.sh provide_umbra_url_here
 ```
