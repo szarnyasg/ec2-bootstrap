@@ -63,4 +63,4 @@ EOF
 # grab repository
 cd ~
 git clone https://github.com/szarnyasg/ec2-bootstrap
-~/ec2-bootstrap/datagen-env-vars.sh
+~/ec2-bootstrap/set-datagen-env-vars.sh
