@@ -14,6 +14,8 @@ cd ~/ec2-bootstrap
 ./init-ldbc.sh
 ```
 
+While these run, in another `tmux` pane, you can start building the Umbra container.
+
 ```bash
 ./build-umbra-container.sh ${UMBRA_URL}
 ```

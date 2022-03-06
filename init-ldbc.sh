@@ -2,6 +2,13 @@
 
 cd /data
 
+# BI repository
+git clone https://github.com/ldbc/ldbc_snb_bi
+
+cd ldbc_snb_bi
+scripts/install-dependencies.sh
+cd ..
+
 # Datagen repository
 git clone https://github.com/ldbc/ldbc_snb_datagen_spark
 
@@ -17,9 +24,4 @@ echo 'export LDBC_SNB_DATAGEN_DIR=/ldbc/ldbc_snb_datagen_spark' >> ~/.bashrc
 
 cd ldbc_snb_datagen_spark
 tools/build.sh
-
-# BI repository
-git clone https://github.com/ldbc/ldbc_snb_bi
-
-cd ldbc_snb_bi
-scripts/install-dependencies.sh
+cd ..

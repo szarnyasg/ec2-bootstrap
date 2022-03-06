@@ -40,7 +40,7 @@ sudo dnf install -y tmux
 # SELinux can get in the way of benchmarking, consider disabling it
 echo "sudo setenforce 0" >> ~/.bashrc
 sudo dnf upgrade -y
-sudo dnf install -y htop git wget zstd docker mc vim the_silver_searcher nmon maven
+sudo dnf install -y htop git wget zstd docker mc vim the_silver_searcher nmon fzf maven python3-pip
 
 # grab repository
 git clone https://github.com/szarnyasg/ec2-bootstrap
