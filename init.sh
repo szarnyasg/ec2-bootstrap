@@ -3,7 +3,7 @@
 set -eu
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-#./mount-disk.sh
+./mount-disk.sh
 
 tmux new-session -s ldbc -n etc -d 'cd ~/ec2-bootstrap/ && ./init-packages.sh; bash -i'
 tmux split-window -h 'htop'
