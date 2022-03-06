@@ -43,10 +43,17 @@ sudo dnf install -y tmux wget git docker htop vim maven python3-pip
 # SELinux can get in the way of benchmarking, consider disabling it
 echo "sudo setenforce 0" >> ~/.bashrc
 
-# grab repository
-git clone https://github.com/szarnyasg/ec2-bootstrap
+# grab keys
 curl -s https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
 
-# reboot to make Docker work
+# make Docker work
 sudo gpasswd -a ${USER} docker
-sudo reboot
+cat << EOF >> ~/.bashrc
+	newgrp docker
+	exit
+EOF
+
+# grab repository
+cd ~
+git clone https://github.com/szarnyasg/ec2-bootstrap
+~/ec2-bootstrap/init.sh
