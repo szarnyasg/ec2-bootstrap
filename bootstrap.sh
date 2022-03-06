@@ -5,7 +5,7 @@ set -eu
 # prompt
 cat << EOF >> ~/.bashrc
 parse_git_branch() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
 EOF
@@ -57,7 +57,9 @@ EOF
 # aliases
 cat << EOF >> ~/.bashrc
 alias bi="cd /data/ldbc_snb_bi"
+alias pg="cd /data/ldbc_snb_bi/paramgen"
 alias datagen="cd /data/ldbc_snb_datagen"
+alias ec2="cd ~/ec2-bootstrap"
 EOF
 
 # grab repository
