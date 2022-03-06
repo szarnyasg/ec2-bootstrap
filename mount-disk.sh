@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -eu
+cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # mount NVMe disk
 export NVME_DEVICE=/dev/nvme1n1
