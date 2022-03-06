@@ -54,6 +54,12 @@ if [[ \`id -gn\` != "docker" ]]; then
 fi
 EOF
 
+# aliases
+cat << EOF >> ~/.bashrc
+alias bi="cd /data/ldbc_snb_bi"
+alias datagen="cd /data/ldbc_snb_datagen"
+EOF
+
 # grab repository
 cd ~
 git clone https://github.com/szarnyasg/ec2-bootstrap
