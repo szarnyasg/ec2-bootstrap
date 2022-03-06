@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # prompt
-~/.bashrc <<EOF
+<<EOF > ~/.bashrc
 parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
@@ -9,7 +9,7 @@ export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
 EOF
 
 # gitconfig
-~/.gitconfig <<EOF
+<<EOF > ~/.gitconfig
 [core]
 	editor = vim
 	quotepath = false
@@ -41,6 +41,12 @@ sudo dnf install -y tmux
 echo "sudo setenforce 0" >> ~/.bashrc
 sudo dnf upgrade -y
 sudo dnf install -y htop git wget zstd docker mc vim the_silver_searcher nmon maven
+
+# grab repository
+git clone https://github.com/szarnyasg/ec2-bootstrap
+curl -s https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
+
+# reboot to make Docker work
 sudo gpasswd -a ${USER} docker
-# use `newgrp` or reboot
 sudo reboot
+
