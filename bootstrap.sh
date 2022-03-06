@@ -47,12 +47,7 @@ curl -s https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
 
 # make Docker work
 sudo gpasswd -a ${USER} docker
-cat << EOF >> ~/.bashrc
-if [[ \`id -gn\` != "docker" ]]; then
-	newgrp docker
-	exit
-fi
-EOF
+sg docker -c "bash"
 
 # aliases
 cat << EOF >> ~/.bashrc
