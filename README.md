@@ -12,8 +12,18 @@ curl -s https://raw.githubusercontent.com/szarnyasg/ec2-bootstrap/main/bootstrap
 
 The script will install the required packages, set up Docker and open a `tmux` session with additional installation/compilation jobs.
 
-Notably, you need to build Umbra manually:
+## Manual steps
 
-```
+You need to perform the following manual steps:
+
+### Build Umbra
+
+```bash
 ~/ec2-bootstrap/build-umbra-container.sh provide_umbra_url_here
+```
+
+### Log in to AWS CLI
+
+```bash
+aws configure
 ```
