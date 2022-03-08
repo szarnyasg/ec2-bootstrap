@@ -16,6 +16,10 @@ The script will install the required packages, set up Docker and open a `tmux` s
 
 You need to perform the following manual steps:
 
+### Making Docker work
+
+You need to log out and log in again to activate membership to the `docker` group.
+
 ### Build Umbra
 
 ```bash
