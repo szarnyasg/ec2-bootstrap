@@ -45,15 +45,6 @@ echo "sudo setenforce 0" >> ~/.bashrc
 # grab keys
 curl -s https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
 
-# make Docker work
-sudo gpasswd -a ${USER} docker
-cat << EOF >> ~/.bashrc
-if [[ \`id -gn\` != "docker" ]]; then
-	newgrp docker
-	exit
-fi
-EOF
-
 # aliases
 cat << EOF >> ~/.bashrc
 alias bi="cd /data/ldbc_snb_bi"
