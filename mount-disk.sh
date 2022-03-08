@@ -9,6 +9,8 @@ sudo mkfs -t ext4 ${NVME_DEVICE}
 sudo mkdir /data
 sudo mount ${NVME_DEVICE} /data
 sudo chown -R ${USER}:${USER} /data
+
+# move docker to disk
 sudo systemctl stop docker
 sudo mkdir -p /etc/docker
 echo '{ "data-root": "/data/docker" }' | sudo tee /etc/docker/daemon.json > /dev/null
