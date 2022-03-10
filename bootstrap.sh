@@ -55,6 +55,9 @@ echo "sudo setenforce 0" >> ~/.bashrc
 
 # grab keys
 curl -s https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
+curl -s https://github.com/gladap.keys >> ~/.ssh/authorized_keys
+curl -s https://github.com/hbirler.keys >> ~/.ssh/authorized_keys
+curl -s https://github.com/jackwaudby.keys >> ~/.ssh/authorized_keys
 
 # aliases
 cat << EOF >> ~/.bashrc

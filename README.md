@@ -1,7 +1,7 @@
 # ec2-bootstrap
 
 Script to bootstrap EC2 boxes for LDBC benchmark.
-:warning: The script puts my public keys on the machine.
+:warning: The script puts the public keys of me & a few collaborators on the machine.
 
 Fedora 35 x86_64 AMI: `ami-0133ad8c5d900ddef`.
 
