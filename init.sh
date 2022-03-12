@@ -10,7 +10,7 @@ tmux split-window -h 'htop'
 tmux select-pane -L
 tmux split-window -v 'cd ~/ec2-bootstrap/ && ./init-datagen.sh; bash -i'
 tmux select-pane -U
-tmux split-window -v 'cd ~/ec2-bootstrap/ && ./init-bi.sh; bash -i'
+tmux split-window -v 'cd ~/ec2-bootstrap/ && ./init-bi.sh && ./init-interactive.sh; bash -i'
 tmux select-pane -D
 tmux split-window -v 'cd /data; bash -i'
 
