@@ -19,8 +19,11 @@ sudo systemctl start docker
 # try mounting additional disks (will fail if the instance lacks more disks)
 for INDEX in 2 3 4; do
     export NVME_DEVICE=/dev/nvme${INDEX}n1
-    sudo mkfs -t ext4 ${NVME_DEVICE}
-    sudo mkdir /data${INDEX}
-    sudo mount ${NVME_DEVICE} /data${INDEX}
-    sudo chown -R ${USER}:${USER} /data${INDEX}
+    # only attempt creating disk if block device ${NVME_DEVICE} exists
+    if [ -b ${NVME_DEVICE} ]; then
+        sudo mkfs -t ext4 ${NVME_DEVICE}
+        sudo mkdir /data${INDEX}
+        sudo mount ${NVME_DEVICE} /data${INDEX}
+        sudo chown -R ${USER}:${USER} /data${INDEX}
+    fi
 done
