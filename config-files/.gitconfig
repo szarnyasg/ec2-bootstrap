@@ -1,0 +1,22 @@
+[core]
+	editor = vim
+	quotepath = false
+[push]
+	default = current
+[color]
+	ui = auto
+[alias]
+	ci = commit
+	st = status
+	di = diff
+	ds = diff --staged
+	d = diff --word-diff
+	oneline = log --pretty=oneline
+	br = branch
+	la = log --pretty="format:%ad %h (%an): %s" --date=short
+	co = checkout
+	cp = cherry-pick
+	getremote = config --get remote.origin.url
+	work = log --pretty=format:\"%h%x09%an%x09%ad%x09%s\"
+	hs = log --pretty='%C(yellow)%h %C(cyan)%ad %Cblue%an%C(auto)%d %Creset%s' --date=relative --date-order --graph
+	root = rev-parse --show-toplevel

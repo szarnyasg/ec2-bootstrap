@@ -2,7 +2,7 @@
 
 set -eu
 
-# prompt
+# git-aware prompt
 cat << EOF >> ~/.bashrc
 parse_git_branch() {
 	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
@@ -10,41 +10,13 @@ parse_git_branch() {
 export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
 EOF
 
-# tmux
-cat << EOF >> ~/.tmux.conf
-set -g default-command "${SHELL}"
-set-option -g history-limit 30000
-
-# Set new panes to open in current directory
-bind c new-window -c "#{pane_current_path}"
-bind '"' split-window -c "#{pane_current_path}"
-bind % split-window -h -c "#{pane_current_path}"
-EOF
-
-# gitconfig
-cat << EOF >> ~/.gitconfig
-[core]
-	editor = vim
-	quotepath = false
-[push]
-	default = current
-[color]
-	ui = auto
-[alias]
-	ci = commit
-	st = status
-	di = diff
-	ds = diff --staged
-	d = diff --word-diff
-	oneline = log --pretty=oneline
-	br = branch
-	la = log --pretty="format:%ad %h (%an): %s" --date=short
-	co = checkout
-	cp = cherry-pick
-	getremote = config --get remote.origin.url
-	work = log --pretty=format:\"%h%x09%an%x09%ad%x09%s\"
-	hs = log --pretty='%C(yellow)%h %C(cyan)%ad %Cblue%an%C(auto)%d %Creset%s' --date=relative --date-order --graph
-	root = rev-parse --show-toplevel
+# aliases
+cat << EOF >> ~/.bashrc
+alias bi="cd /data/ldbc_snb_bi"
+alias int="cd /data/ldbc_snb_interactive_impls"
+alias pg="cd /data/ldbc_snb_bi/paramgen"
+alias datagen="cd /data/ldbc_snb_datagen_spark"
+alias ec2="cd ~/ec2-bootstrap"
 EOF
 
 # packages
@@ -60,14 +32,6 @@ curl -s https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
 curl -s https://github.com/gladap.keys >> ~/.ssh/authorized_keys
 curl -s https://github.com/hbirler.keys >> ~/.ssh/authorized_keys
 curl -s https://github.com/jackwaudby.keys >> ~/.ssh/authorized_keys
-
-# aliases
-cat << EOF >> ~/.bashrc
-alias bi="cd /data/ldbc_snb_bi"
-alias pg="cd /data/ldbc_snb_bi/paramgen"
-alias datagen="cd /data/ldbc_snb_datagen_spark"
-alias ec2="cd ~/ec2-bootstrap"
-EOF
 
 # grab repository
 cd ~
