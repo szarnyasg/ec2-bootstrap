@@ -49,6 +49,8 @@ EOF
 
 # packages
 sudo dnf install -y tmux wget git docker htop vim maven python3-pip
+# make Docker work
+sudo gpasswd -a ${USER} docker
 
 # SELinux can get in the way of benchmarking, consider disabling it
 echo "sudo setenforce 0" >> ~/.bashrc
