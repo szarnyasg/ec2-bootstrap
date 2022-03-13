@@ -20,7 +20,7 @@ alias ec2="cd ~/ec2-bootstrap"
 EOF
 
 # packages
-sudo dnf install -y tmux wget git docker htop vim maven python3-pip
+sudo dnf install -y tmux wget git docker htop vim maven python3-pip unzip
 # make Docker work
 sudo gpasswd -a ${USER} docker
 
