@@ -31,3 +31,11 @@ You need to log out and log in again to activate membership to the `docker` grou
 ```bash
 aws configure
 ```
+
+### Rebooting
+
+After rebooting, mount disks by running:
+
+```bash
+./mount-disks.sh
+```
