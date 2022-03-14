@@ -3,7 +3,7 @@
 Script to bootstrap EC2 boxes for LDBC benchmark.
 :warning: The script puts the public keys of me & a few collaborators on the machine.
 
-Fedora 35 x86_64 AMI: `ami-0133ad8c5d900ddef`.
+Use the Amazon Linux AMI with Kernel 5.10.
 
 ```bash
 curl -s https://raw.githubusercontent.com/szarnyasg/ec2-bootstrap/main/bootstrap.sh | bash && \
