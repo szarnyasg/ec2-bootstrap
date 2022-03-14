@@ -14,17 +14,11 @@ The script will install the required packages, set up Docker and open a `tmux` s
 
 ## Manual steps
 
-You need to perform the following manual steps:
+You need to perform the following manual steps.
 
 ### Making Docker work
 
 You need to log out and log in again to activate membership to the `docker` group.
-
-### Build Umbra
-
-```bash
-~/ec2-bootstrap/build-umbra-container.sh provide_umbra_url_here
-```
 
 ### Log in to AWS CLI
 
