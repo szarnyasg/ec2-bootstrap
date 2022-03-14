@@ -10,5 +10,6 @@ git clone https://github.com/ldbc/ldbc_snb_datagen_spark
 curl https://downloads.apache.org/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz | sudo tar -xz -C /opt/
 
 cd ldbc_snb_datagen_spark
-tools/build.sh
+# needs Maven 3.3+ to build
+#tools/build.sh
 cd ..
