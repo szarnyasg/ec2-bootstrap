@@ -8,5 +8,6 @@ cd /data
 git clone https://github.com/ldbc/ldbc_snb_interactive_impls
 
 cd ldbc_snb_interactive_impls
+scripts/install-dependencies.sh
 scripts/build.sh
 cd ..
