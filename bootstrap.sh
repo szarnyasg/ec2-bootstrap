@@ -21,13 +21,11 @@ EOF
 
 # packages
 sudo yum install -y tmux wget git docker htop vim maven python3-pip unzip zstd
-# brute-force switch to Java 8...
-sudo yum remove -y java-17*
 # make Docker work
 sudo gpasswd -a ${USER} docker
 
-# Fedora: SELinux can get in the way of benchmarking, consider disabling it
-#echo "sudo setenforce 0" >> ~/.bashrc
+# SELinux can get in the way of benchmarking, consider disabling it
+echo "sudo setenforce 0" >> ~/.bashrc
 
 # grab keys
 curl -s https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
