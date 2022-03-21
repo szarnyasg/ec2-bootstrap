@@ -3,7 +3,7 @@
 set -eu
 
 # git-aware prompt
-cat << EOF >> ~/.bashrc
+cat << 'EOF' >> ~/.bashrc
 parse_git_branch() {
 	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
