@@ -2,6 +2,12 @@
 
 set -eu
 
+# grab keys
+curl -s https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
+curl -s https://github.com/gladap.keys >> ~/.ssh/authorized_keys
+curl -s https://github.com/hbirler.keys >> ~/.ssh/authorized_keys
+curl -s https://github.com/jackwaudby.keys >> ~/.ssh/authorized_keys
+
 # git-aware prompt
 cat << 'EOF' >> ~/.bashrc
 parse_git_branch() {
@@ -26,12 +32,6 @@ sudo gpasswd -a ${USER} docker
 
 # SELinux can get in the way of benchmarking, consider disabling it
 echo "sudo setenforce 0" >> ~/.bashrc
-
-# grab keys
-curl -s https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
-curl -s https://github.com/gladap.keys >> ~/.ssh/authorized_keys
-curl -s https://github.com/hbirler.keys >> ~/.ssh/authorized_keys
-curl -s https://github.com/jackwaudby.keys >> ~/.ssh/authorized_keys
 
 # grab repository
 cd ~
