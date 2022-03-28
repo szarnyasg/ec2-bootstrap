@@ -26,7 +26,7 @@ alias ec2="cd ~/ec2-bootstrap"
 EOF
 
 # packages
-sudo yum install -y tmux wget git docker htop vim maven python3-pip unzip zstd
+sudo yum install -y tmux wget wget2 git docker htop vim maven python3-pip unzip zstd
 # make Docker work
 sudo gpasswd -a ${USER} docker
 
