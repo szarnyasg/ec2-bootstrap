@@ -6,9 +6,10 @@ cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # mount first NVMe disk
 if [ -b /dev/xvdb ]; then
     export NVME_DEVICE=/dev/xvdb
-fi
-if [ -b /dev/nvme1n1 ]; then
+elif [ -b /dev/nvme1n1 ]; then
     export NVME_DEVICE=/dev/nvme1n1
+elif [ -b /dev/nvme0n1 ]; then
+    export NVME_DEVICE=/dev/nvme0n1
 fi
 sudo mkfs -t ext4 ${NVME_DEVICE}
 sudo mkdir /data/
