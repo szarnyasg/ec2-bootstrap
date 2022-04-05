@@ -24,7 +24,7 @@ alias pg="cd /data/ldbc_snb_bi/paramgen"
 alias datagen="cd /data/ldbc_snb_datagen_spark"
 alias ec2="cd ~/ec2-bootstrap"
 get() {
-    curl -s ${1} | tar -xv -I zstd
+    curl -s \${1} | tar -xv -I zstd
 }
 EOF
 
