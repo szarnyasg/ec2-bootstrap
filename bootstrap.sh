@@ -21,7 +21,7 @@ cat << 'EOF' >> ~/.bashrc
 alias bi="cd /data/ldbc_snb_bi"
 alias int="cd /data/ldbc_snb_interactive_impls"
 alias pg="cd /data/ldbc_snb_bi/paramgen"
-alias datagen="cd ${LDBC_SNB_DATAGEN_DIR}"
+alias datagen="cd \${LDBC_SNB_DATAGEN_DIR}"
 alias ec2="cd ~/ec2-bootstrap"
 get() {
     curl --silent --fail \${1} | tar -xv -I zstd
