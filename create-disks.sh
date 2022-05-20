@@ -4,7 +4,7 @@ set -eu
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 NUM_DISKS=$(lsblk | grep ^nvme[^0] | wc -l)
-sudo mdadm --create --verbose /dev/md0 --level=0 --name=MY_RAID --raid-devices=${NUM_DISKS} $(seq -f "/dev/nvme%gn1" 1 ${NUM_DISKS})
+sudo mdadm --create --verbose /dev/md0 --level=0 --name=MY_RAID --raid-devices=${NUM_DISKS} $(seq -f "/dev/nvme%gn1" 1 ${NUM_DISKS}) --force
 sudo mkfs.ext4 -L MY_RAID /dev/md0
 sudo mdadm --detail --scan | sudo tee -a /etc/mdadm.conf
 sudo dracut -H -f /boot/initramfs-$(uname -r).img $(uname -r)
