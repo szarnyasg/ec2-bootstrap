@@ -10,7 +10,7 @@ cat config-files/.tmux.conf >> ~/.tmux.conf
 mkdir -p ~/.config/htop/
 cat config-files/htoprc >> ~/.config/htop/htoprc
 
-tmux new-session -s ldbc -n etc -d 'cd ~/ec2-bootstrap/ && ./install-packages.sh && ./get-ldbc-interactive.sh && ./get-ldbc-bi.sh; bash -i'
+tmux new-session -s ldbc -n etc -d 'cd ~/ec2-bootstrap/ && ./install-packages.sh && ./get-ldbc-bi.sh && ./get-ldbc-interactive.sh; bash -i'
 tmux split-window -h 'htop'
 tmux select-pane -L
 tmux split-window -v 'cd ~/ec2-bootstrap/ && ./get-aws.sh && bash -i'
