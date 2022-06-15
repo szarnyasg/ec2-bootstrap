@@ -3,7 +3,7 @@ variable "aws_image" {
     description = "ID of the AWS image (AMI)"
 }
 
-variables "aws_instance" {
+variable "aws_instance" {
     type = string
     description = "EC2 instance"
 }
