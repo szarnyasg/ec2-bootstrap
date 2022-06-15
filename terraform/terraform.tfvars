@@ -1,0 +1,5 @@
+aws_image            = "ami-086c1d77a774201ee"
+aws_instance         = "t2.micro"
+aws_region           = "us-east-2"
+aws_credentials_file = ""
+aws_profile          = ""
