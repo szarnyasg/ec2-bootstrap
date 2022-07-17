@@ -4,10 +4,6 @@ set -eu
 
 # grab keys
 curl --silent https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
-curl --silent https://github.com/gladap.keys >> ~/.ssh/authorized_keys
-curl --silent https://github.com/hbirler.keys >> ~/.ssh/authorized_keys
-curl --silent https://github.com/jackwaudby.keys >> ~/.ssh/authorized_keys
-curl --silent https://github.com/dtenwolde.keys >> ~/.ssh/authorized_keys
 
 # git-aware prompt
 cat << 'EOF' >> ~/.bashrc
@@ -23,6 +19,7 @@ alias bi="cd /data/ldbc_snb_bi"
 alias int="cd /data/ldbc_snb_interactive_impls"
 alias pg="cd /data/ldbc_snb_bi/paramgen"
 alias datagen="cd \${LDBC_SNB_DATAGEN_DIR}"
+alias driver="cd \${LDBC_SNB_DRIVER_DIR}"
 alias ec2="cd ~/ec2-bootstrap"
 get() {
     curl --silent --fail \${1} | tar -xv -I zstd
