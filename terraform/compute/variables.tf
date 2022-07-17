@@ -13,15 +13,18 @@ variable "aws_region" {
     description = "AWS Avaibility zone"
 }
 
+variable "aws_availability_region" {
+    type = string
+    description = "AWS Avaibility zone"
+}
+
+
 variable "aws_profile" {
     type = string
+    default = "default"
     description = "AWS Profile name matching the shared credentails"
 }
 
-variable "aws_credentials_file" {
-    type = string
-    description = "Path to the credentials file"
-}
 
 variable "key_pair_name" {
     type = string
