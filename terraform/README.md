@@ -10,7 +10,7 @@ To use this files, the following is required:
 - AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 - Python: Used for Ansible
 - Ansible: installed by using e.g. `python3 -m pip install --user ansible`
-- Ansible.posic: Installed by using `ansible-galaxy collection install ansible.posix`
+- Ansible.posix: Installed by using `ansible-galaxy collection install ansible.posix`
 
 ## Contents
 
@@ -48,6 +48,7 @@ In `terraform.tfvars`, the values used for deployment can be found and changed i
 - `private_key_filepath`: The path to the private key. This is used to execute Ansible provisioner on the EC2 instance.
 - `key_pair_public_key`: The public key associated with the above `key_pair_name`. This can be a SSH public key e.g.: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 email@example.com`.
 - `remote_exec_username`: The remote username to use. In case of using an Ubuntu image the username is `ubuntu`.
+- `create_raid_drives`: Create RAID drives (only set to true when the EC2 instance has multiple Nvme drives)
 
 The `key_pair` is used to connect to the EC2 instance once it is deployed. More information about the `key-pair` can be found [here](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair).
 
