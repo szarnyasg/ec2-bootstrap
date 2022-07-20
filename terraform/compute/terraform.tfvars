@@ -8,3 +8,4 @@ subnet_cidr_block         = "10.0.1.0/24"
 aws_availability_zone     = "us-east-1a"
 
 remote_exec_username      = "ubuntu"
+create_raid_drives        = false

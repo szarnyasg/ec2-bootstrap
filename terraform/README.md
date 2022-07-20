@@ -10,6 +10,7 @@ To use this files, the following is required:
 - AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 - Python: Used for Ansible
 - Ansible: installed by using e.g. `python3 -m pip install --user ansible`
+- Ansible.posic: Installed by using `ansible-galaxy collection install ansible.posix`
 
 ## Contents
 

@@ -48,3 +48,8 @@ variable "remote_exec_username" {
     type = string
     description = "The remote username, e.g. Ubuntu when a ubuntu AMI is used."
 }
+
+variable "create_raid_drives" {
+    type = bool
+    description = "Whether the EC2 instance has NVMe drives that needs to be a RAID volume"
+}

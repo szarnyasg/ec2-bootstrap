@@ -1,0 +1,23 @@
+---
+- hosts: ldbc
+  become: false
+  tasks:
+  - name: Clone datagen branch
+    ansible.builtin.git:
+      repo: https://github.com/ldbc/ldbc_snb_datagen_spark
+      dest: /data/ldbc_snb_datagen_spark
+
+  - name: Download the awscli bundle
+    get_url: url=https://downloads.apache.org/spark/spark-3.2.2/spark-3.2.2-bin-hadoop3.2.tgz dest=/tmp/spark-3.2.2-bin-hadoop3.2.tgz
+    register: spark_download
+  
+  - name: Unarchive the installer
+    unarchive: src=/tmp/spark-3.2.2-bin-hadoop3.2.tgz dest=/opt/ copy=no creates=/opt/spark-3.2.2-bin-hadoop3.2
+    when: spark_download.changed
+    register: spark_unarchive_installer
+    become: true
+
+  - name: Build datagen
+    shell:
+      cmd: |
+        cd /data/ldbc_snb_datagen_spark && sbt assembly

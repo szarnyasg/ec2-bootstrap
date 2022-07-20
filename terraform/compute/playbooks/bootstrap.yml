@@ -2,15 +2,36 @@
 - hosts: ldbc
   become: true
   tasks:
-  - name: Add public keys from contributors
-    shell:
-      cmd: |
-        curl --silent https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
-        curl --silent https://github.com/gladap.keys >> ~/.ssh/authorized_keys
-        curl --silent https://github.com/hbirler.keys >> ~/.ssh/authorized_keys
-        curl --silent https://github.com/jackwaudby.keys >> ~/.ssh/authorized_keys
-        curl --silent https://github.com/dtenwolde.keys >> ~/.ssh/authorized_keys
-    
+  - name: Copy .gitconfig
+    ansible.builtin.copy:
+      src: ../../../config-files/.gitconfig
+      dest: ~/.gitconfig
+      owner: '{{ ansible_user }}'
+      mode: '0644'
+    become: false
+
+  - name: Copy .tmux.conf
+    ansible.builtin.copy:
+      src: ../../../config-files/.tmux.conf
+      dest: ~/.tmux.conf
+      owner: '{{ ansible_user }}'
+      mode: '0644'
+    become: false
+
+  - name: Create ~/.config/htop/
+    file:
+      path: ~/.config/htop/
+      state: directory
+    become: false
+
+  - name: Copy htoprc
+    ansible.builtin.copy:
+      src: ../../../config-files/htoprc
+      dest: ~/.config/htop/htoprc
+      owner: '{{ ansible_user }}'
+      mode: '0644'
+    become: false
+
   - name: Add git-aware prompt
     shell:
       cmd: |
@@ -35,10 +56,108 @@
         }
         EOF
 
-  - include: dependencies/apt_packages.yml
+  - name: Install packages using apt
+    block:
+      - name: Install aptitude
+        apt:
+            name: aptitude
+            state: latest
+            update_cache: true
+
+      - name: Install required system packages
+        apt:
+            pkg:
+            - apt-transport-https
+            - ca-certificates
+            - curl
+            - software-properties-common
+            - python3-pip
+            - virtualenv
+            - python3-setuptools
+            - tmux
+            - wget
+            - git
+            - htop
+            - vim
+            - maven
+            - python3-pip
+            - unzip
+            - zstd
+            - fio
+            - mdadm
+            - sbt
+            state: latest
+            update_cache: true
+
+      - name: Add Docker GPG apt Key
+        apt_key:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            state: present
+
+      - name: Add Docker Repository
+        apt_repository:
+            repo: deb https://download.docker.com/linux/ubuntu focal stable
+            state: present
+
+      - name: Update apt and install docker-ce
+        apt:
+            name: docker-ce
+            state: latest
+            update_cache: true
     when: ansible_pkg_mgr == 'apt'
 
-  - include: dependencies/yum_packages.yml
+  - name: Install packages using yum
+    block:
+      - name: Install required system packages
+        ansible.builtin.yum:
+            name:
+            - sbt
+            - mc
+            - the_silver_searcher
+            - nmon
+            - bmon
+            - fzf
+            - sysstat
+            - tree
+            - nano
+            - m4
+            - make
+            - cmake
+            - automake
+            - gcc
+            - gcc-c++
+            - kernel-devel
+            - zip
+            - bc
+            - exa
+            - bat
+            - tldr
+            - python3-devel
+            state: present
+
+      - name: Restart sysstat
+        ansible.builtin.service:
+            name: sysstat
+            state: restarted
+
+      - name: Install additional system packages
+        ansible.builtin.yum:
+            name:
+            - tmux
+            - wget
+            - wget2
+            - git
+            - docker
+            - docker-compose
+            - htop
+            - vim
+            - maven
+            - python3-pip
+            - unzip
+            - zstd
+            - fio
+            - mdadm
+            state: present
     when: ansible_pkg_mgr == 'yum'
  
   - name: Disable SELinux
@@ -68,6 +187,14 @@
     when: aws_cli_unarchive_installer.changed
     become: false
 
+  - name: Add AWS environment variables
+    shell:
+      cmd: |
+        cat << EOF >> ~/.bashrc
+        export BUCKET_NAME=ldbc-snb-datagen-bi-2021-07
+        export AWS_PROFILE=ldbc
+        EOF
+
   - name: Add datagen env variables
     shell:
       cmd: |
@@ -79,3 +206,9 @@
         export LDBC_SNB_DATAGEN_DIR=/data/ldbc_snb_datagen_spark
         export LDBC_SNB_DATAGEN_MAX_MEM=10G
         EOF
+
+#   - name: Clone interactive implementations branch
+#     ansible.builtin.git:
+#       repo: https://github.com/szarnyasg/ec2-bootstrap
+#       dest: ~/ec2-bootstrap
+#     become: false
