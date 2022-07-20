@@ -23,12 +23,12 @@ resource "aws_instance" "box" {
 
     provisioner "local-exec" {
         command = <<EOT
-            sleep 5;
+            sleep 30;
             >ldbc.ini;
             echo "[ldbc]" | tee -a ldbc.ini;
             echo "${self.public_ip} ansible_user=${var.remote_exec_username} ansible_ssh_private_key_file=${var.private_key_filepath}" | tee -a ldbc.ini;
             export ANSIBLE_HOST_KEY_CHECKING=False;
-            ansible-playbook -u ${var.remote_exec_username} --private-key ${var.private_key_filepath} --extra-vars="raid_nvme=${var.create_raid_drives}" -i ldbc.ini ../playbooks/main.yml
+            ansible-playbook -u ${var.remote_exec_username} --private-key ${var.private_key_filepath} --extra-vars="raid_nvme=${var.create_raid_drives}" -i ldbc.ini playbooks/main.yml
             EOT
     }
 
