@@ -8,6 +8,8 @@ To use this files, the following is required:
 
 - Terraform: https://www.terraform.io/downloads
 - AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+- Python: Used for Ansible
+- Ansible: installed by using e.g. `python3 -m pip install --user ansible`
 
 ## Contents
 
@@ -43,6 +45,8 @@ In `terraform.tfvars`, the values used for deployment can be found and changed i
 
 The `key_pair` is used to connect to the EC2 instance once it is deployed. More information about the `key-pair` can be found [here](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair).
 
+
+
 ### Deploy
 
 To deploy the configuration, execute the following commands:
@@ -50,6 +54,11 @@ To deploy the configuration, execute the following commands:
 ```bash
 terraform init
 terraform apply
+```
+
+Alternatively, if you have your own variables file, you can use that (e.g. dev.tfvars):
+```bash
+terraform apply -var-file dev.tfvars
 ```
 
 It can take some time before everything is deployed. Once everything is deployed, the IP-address and public DNS of the EC2 instance is shown, e.g.:

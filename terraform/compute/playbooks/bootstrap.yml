@@ -1,0 +1,109 @@
+---
+- hosts: ldbc
+  become: true
+  tasks:
+  - name: Add public keys from contributors
+    shell:
+      cmd: |
+        curl --silent https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
+        curl --silent https://github.com/gladap.keys >> ~/.ssh/authorized_keys
+        curl --silent https://github.com/hbirler.keys >> ~/.ssh/authorized_keys
+        curl --silent https://github.com/jackwaudby.keys >> ~/.ssh/authorized_keys
+        curl --silent https://github.com/dtenwolde.keys >> ~/.ssh/authorized_keys
+    
+  - name: Add git-aware prompt
+    shell:
+      cmd: |
+        cat << 'EOF' >> ~/.bashrc
+        parse_git_branch() {
+            git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+        }
+        export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
+        EOF
+
+  - name: Add aliases
+    shell:
+      cmd: |
+        cat << 'EOF' >> ~/.bashrc
+        alias bi="cd /data/ldbc_snb_bi"
+        alias int="cd /data/ldbc_snb_interactive_impls"
+        alias pg="cd /data/ldbc_snb_bi/paramgen"
+        alias datagen="cd \${LDBC_SNB_DATAGEN_DIR}"
+        alias ec2="cd ~/ec2-bootstrap"
+        get() {
+            curl --silent --fail \${1} | tar -xv -I zstd
+        }
+        EOF
+
+  - name: Install aptitude
+    apt:
+      name: aptitude
+      state: latest
+      update_cache: true
+
+  - name: Install required system packages
+    apt:
+      pkg:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - python3-pip
+        - virtualenv
+        - python3-setuptools
+        - tmux
+        - wget
+        - git
+        - htop
+        - vim
+        - maven
+        - python3-pip
+        - unzip
+        - zstd
+        - fio
+        - mdadm
+      state: latest
+      update_cache: true
+
+  - name: Add Docker GPG apt Key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add Docker Repository
+    apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu focal stable
+      state: present
+
+  - name: Update apt and install docker-ce
+    apt:
+      name: docker-ce
+      state: latest
+      update_cache: true
+
+  - name: Disable SELinux
+    shell:
+      cmd: |
+        echo "sudo setenforce 0" >> ~/.bashrc
+
+  - name: Adding existing user '{{ ansible_user }}' to group docker
+    user:
+        name: '{{ ansible_user }}'
+        groups: docker
+        append: yes
+
+  - name: Download the awscli bundle.
+    get_url: url=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip dest=/tmp/awscliv2.zip
+    register: aws_cli_download_bundle
+
+  - name: Unarchive the installer.
+    unarchive: src=/tmp/awscliv2.zip dest=/tmp copy=no creates=/tmp/aws
+    when: aws_cli_download_bundle.changed
+    register: aws_cli_unarchive_installer
+
+  - name: Install awscli package.
+    shell: cd /tmp ; sudo ./aws/install
+    args:
+      creates: /usr/local/aws-cli
+    when: aws_cli_unarchive_installer.changed
+    become: false

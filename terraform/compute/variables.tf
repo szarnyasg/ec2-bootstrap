@@ -34,7 +34,17 @@ variable "key_pair_public_key" {
     description = "The public key for the key pair (starts with ssh-key and ends with the email address for the public key)"
 }
 
+variable "private_key_filepath" {
+    type = string
+    description = "The path to the private key file used to connect to the ec2 instance"
+}
+
 variable "subnet_cidr_block" {
     type = string
     description = "The CIDR subnet block to associate with the VPC"
+}
+
+variable "remote_exec_username" {
+    type = string
+    description = "The remote username, e.g. Ubuntu when a ubuntu AMI is used."
 }
