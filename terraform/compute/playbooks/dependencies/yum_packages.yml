@@ -1,0 +1,50 @@
+- name: Install required system packages
+  ansible.builtin.yum:
+    name:
+      - sbt
+      - mc
+      - the_silver_searcher
+      - nmon
+      - bmon
+      - fzf
+      - sysstat
+      - tree
+      - nano
+      - m4
+      - make
+      - cmake
+      - automake
+      - gcc
+      - gcc-c++
+      - kernel-devel
+      - zip
+      - bc
+      - exa
+      - bat
+      - tldr
+      - python3-devel
+    state: present
+
+- name: Restart sysstat
+  ansible.builtin.service:
+    name: sysstat
+    state: restarted
+
+- name: Install additional system packages
+  ansible.builtin.yum:
+    name:
+      - tmux
+      - wget
+      - wget2
+      - git
+      - docker
+      - docker-compose
+      - htop
+      - vim
+      - maven
+      - python3-pip
+      - unzip
+      - zstd
+      - fio
+      - mdadm
+    state: present

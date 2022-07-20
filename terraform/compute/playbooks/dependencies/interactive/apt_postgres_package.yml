@@ -1,0 +1,13 @@
+  - name: Install packages that allow apt to be used over HTTPS
+    apt:
+      name: libpq5
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+      - libpq5
+
+  - name: Install psycopg within a user home directory
+    ansible.builtin.pip:
+      name: psycopg
+      extra_args: --user

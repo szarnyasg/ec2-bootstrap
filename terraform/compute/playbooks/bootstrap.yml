@@ -35,52 +35,12 @@
         }
         EOF
 
-  - name: Install aptitude
-    apt:
-      name: aptitude
-      state: latest
-      update_cache: true
+  - include: dependencies/apt_packages.yml
+    when: ansible_pkg_mgr == 'apt'
 
-  - name: Install required system packages
-    apt:
-      pkg:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
-        - python3-pip
-        - virtualenv
-        - python3-setuptools
-        - tmux
-        - wget
-        - git
-        - htop
-        - vim
-        - maven
-        - python3-pip
-        - unzip
-        - zstd
-        - fio
-        - mdadm
-      state: latest
-      update_cache: true
-
-  - name: Add Docker GPG apt Key
-    apt_key:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      state: present
-
-  - name: Add Docker Repository
-    apt_repository:
-      repo: deb https://download.docker.com/linux/ubuntu focal stable
-      state: present
-
-  - name: Update apt and install docker-ce
-    apt:
-      name: docker-ce
-      state: latest
-      update_cache: true
-
+  - include: dependencies/yum_packages.yml
+    when: ansible_pkg_mgr == 'yum'
+ 
   - name: Disable SELinux
     shell:
       cmd: |
@@ -107,3 +67,15 @@
       creates: /usr/local/aws-cli
     when: aws_cli_unarchive_installer.changed
     become: false
+
+  - name: Add datagen env variables
+    shell:
+      cmd: |
+        cat << EOF >> ~/.bashrc
+        export SPARK_HOME=/opt/spark-3.2.1-bin-hadoop3.2
+        export PATH="\$SPARK_HOME/bin":"\$PATH"
+        export PLATFORM_VERSION=2.12_spark3.2
+        export DATAGEN_VERSION=0.5.0-SNAPSHOT
+        export LDBC_SNB_DATAGEN_DIR=/data/ldbc_snb_datagen_spark
+        export LDBC_SNB_DATAGEN_MAX_MEM=10G
+        EOF

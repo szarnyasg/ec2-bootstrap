@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: false
+  tasks:
+  - name: Clone interactive implementations branch
+    ansible.builtin.git:
+      repo: https://github.com/ldbc/ldbc_snb_interactive_impls
+      dest: /data/ldbc_snb_interactive_impls
+
+  - include: dependencies/interactive/apt_postgres_package.yml
+    when: ansible_pkg_mgr == 'apt'
+
+  - include: dependencies/interactive/yum_postgres_package.yml
+    when: ansible_pkg_mgr == 'yum'
+
