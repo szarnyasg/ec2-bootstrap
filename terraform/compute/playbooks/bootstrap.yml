@@ -207,8 +207,8 @@
         export LDBC_SNB_DATAGEN_MAX_MEM=10G
         EOF
 
-#   - name: Clone interactive implementations branch
-#     ansible.builtin.git:
-#       repo: https://github.com/szarnyasg/ec2-bootstrap
-#       dest: ~/ec2-bootstrap
-#     become: false
+  - name: Clone interactive implementations branch
+    ansible.builtin.git:
+      repo: https://github.com/szarnyasg/ec2-bootstrap
+      dest: ~/ec2-bootstrap
+    become: false
