@@ -34,8 +34,6 @@ After rebooting, mount disks by running:
 ./mount-disks.sh
 ```
 
-
-
 ## Terraform & Ansible
 
 Alternatively, the EC2 instance can be deployed using Terraform and Ansible provisioning. See the `terraform` folder for the usage details.

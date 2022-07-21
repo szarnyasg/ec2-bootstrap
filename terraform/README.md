@@ -65,6 +65,15 @@ Alternatively, if you have your own variables file, you can use that (e.g. dev.t
 ```bash
 terraform apply -var-file dev.tfvars
 ```
+as an example, a Ubuntu and Fedora tfvars is created, which can be used with:
+```bash
+terraform apply -var-file fedora.tfvars
+```
+or
+```bash
+terraform apply -var-file ubuntu.tfvars
+```
+
 
 It can take some time before everything is deployed. Once everything is deployed, the IP-address and public DNS of the EC2 instance is shown, e.g.:
 
