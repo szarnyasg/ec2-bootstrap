@@ -1,0 +1,8 @@
+---
+- import_playbook: bootstrap.yml
+- import_playbook: contributor-keys.yml
+- import_playbook: create-disks.yml
+
+- import_playbook: init-ldbc-interactive.yml
+- import_playbook: init-ldbc-bi.yml
+- import_playbook: init-ldbc-datagen.yml

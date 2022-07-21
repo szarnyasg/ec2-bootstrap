@@ -1,0 +1,241 @@
+---
+- hosts: ldbc
+  become: true
+  tasks:
+  - name: Copy .gitconfig
+    ansible.builtin.copy:
+      src: ../../../config-files/.gitconfig
+      dest: ~/.gitconfig
+      owner: '{{ ansible_user }}'
+      mode: '0644'
+    become: false
+
+  - name: Copy .tmux.conf
+    ansible.builtin.copy:
+      src: ../../../config-files/.tmux.conf
+      dest: ~/.tmux.conf
+      owner: '{{ ansible_user }}'
+      mode: '0644'
+    become: false
+
+  - name: Create ~/.config/htop/
+    file:
+      path: ~/.config/htop/
+      state: directory
+    become: false
+
+  - name: Copy htoprc
+    ansible.builtin.copy:
+      src: ../../../config-files/htoprc
+      dest: ~/.config/htop/htoprc
+      owner: '{{ ansible_user }}'
+      mode: '0644'
+    become: false
+
+  - name: Add git-aware prompt
+    shell:
+      cmd: |
+        cat << 'EOF' >> ~/.bashrc
+        parse_git_branch() {
+            git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+        }
+        export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
+        EOF
+
+  - name: Add aliases
+    shell:
+      cmd: |
+        cat << 'EOF' >> ~/.bashrc
+        alias bi="cd /data/ldbc_snb_bi"
+        alias int="cd /data/ldbc_snb_interactive_impls"
+        alias pg="cd /data/ldbc_snb_bi/paramgen"
+        alias datagen="cd \${LDBC_SNB_DATAGEN_DIR}"
+        alias ec2="cd ~/ec2-bootstrap"
+        get() {
+            curl --silent --fail \${1} | tar -xv -I zstd
+        }
+        EOF
+
+  - name: Install packages using apt
+    block:
+      - name: Install aptitude
+        apt:
+            name: aptitude
+            state: latest
+            update_cache: true
+
+      - name: Add sbt repository into sources list
+        ansible.builtin.apt_repository:
+          repo: deb https://repo.scala-sbt.org/scalasbt/debian all main
+          state: present
+          filename: sbt
+
+      - name: Add sbt_old repository into sources list
+        ansible.builtin.apt_repository:
+          repo: deb https://repo.scala-sbt.org/scalasbt/debian /
+          state: present
+          filename: sbt_old
+
+      - name: Add an Apt signing key, will not download if present
+        ansible.builtin.apt_key:
+            id: 0x2EE0EA64E40A89B84B2DF73499E82A75642AC823
+            keyserver: https://keyserver.ubuntu.com
+            state: present
+
+      - name: Install required system packages
+        apt:
+            pkg:
+            - apt-transport-https
+            - ca-certificates
+            - curl
+            - software-properties-common
+            - python3-pip
+            - virtualenv
+            - python3-setuptools
+            - tmux
+            - wget
+            - git
+            - htop
+            - vim
+            - maven
+            - python3-pip
+            - unzip
+            - zstd
+            - fio
+            - mdadm
+            - sbt
+            state: latest
+            update_cache: true
+
+      - name: Add Docker GPG apt Key
+        apt_key:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            state: present
+
+      - name: Add Docker Repository
+        apt_repository:
+            repo: deb https://download.docker.com/linux/ubuntu focal stable
+            state: present
+
+      - name: Update apt and install docker-ce
+        apt:
+            name: docker-ce
+            state: latest
+            update_cache: true
+    when: ansible_pkg_mgr == 'apt'
+
+  - name: Install packages using yum
+    block:
+
+      - name: Add SBT repo
+        shell:
+          cmd: |
+            rm -f /etc/yum.repos.d/bintray-rpm.repo || true
+            curl -L https://www.scala-sbt.org/sbt-rpm.repo > sbt-rpm.repo
+            mv sbt-rpm.repo /etc/yum.repos.d/
+
+      - name: Install required system packages
+        ansible.builtin.yum:
+            name:
+            - sbt
+            - mc
+            - the_silver_searcher
+            - nmon
+            - bmon
+            - fzf
+            - sysstat
+            - tree
+            - nano
+            - m4
+            - make
+            - cmake
+            - automake
+            - gcc
+            - gcc-c++
+            - kernel-devel
+            - zip
+            - bc
+            - exa
+            - bat
+            - tldr
+            - python3-devel
+            state: present
+            update_cache: true
+
+      - name: Restart sysstat
+        ansible.builtin.service:
+            name: sysstat
+            state: restarted
+
+      - name: Install additional system packages
+        ansible.builtin.yum:
+            name:
+            - tmux
+            - wget
+            - wget2
+            - git
+            - docker
+            - docker-compose
+            - htop
+            - vim
+            - maven
+            - python3-pip
+            - unzip
+            - zstd
+            - fio
+            - mdadm
+            state: present
+    when: ansible_os_family == "RedHat"
+ 
+  - name: Disable SELinux
+    shell:
+      cmd: |
+        echo "sudo setenforce 0" >> ~/.bashrc
+
+  - name: Adding existing user '{{ ansible_user }}' to group docker
+    user:
+        name: '{{ ansible_user }}'
+        groups: docker
+        append: yes
+
+  - name: Download the awscli bundle.
+    get_url: url=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip dest=/tmp/awscliv2.zip
+    register: aws_cli_download_bundle
+
+  - name: Unarchive the installer.
+    unarchive: src=/tmp/awscliv2.zip dest=/tmp copy=no creates=/tmp/aws
+    when: aws_cli_download_bundle.changed
+    register: aws_cli_unarchive_installer
+
+  - name: Install awscli package.
+    shell: cd /tmp ; sudo ./aws/install
+    args:
+      creates: /usr/local/aws-cli
+    when: aws_cli_unarchive_installer.changed
+    become: false
+
+  - name: Add AWS environment variables
+    shell:
+      cmd: |
+        cat << EOF >> ~/.bashrc
+        export BUCKET_NAME=ldbc-snb-datagen-bi-2021-07
+        export AWS_PROFILE=ldbc
+        EOF
+
+  - name: Add datagen env variables
+    shell:
+      cmd: |
+        cat << EOF >> ~/.bashrc
+        export SPARK_HOME=/opt/spark-3.2.1-bin-hadoop3.2
+        export PATH="\$SPARK_HOME/bin":"\$PATH"
+        export PLATFORM_VERSION=2.12_spark3.2
+        export DATAGEN_VERSION=0.5.0-SNAPSHOT
+        export LDBC_SNB_DATAGEN_DIR=/data/ldbc_snb_datagen_spark
+        export LDBC_SNB_DATAGEN_MAX_MEM=10G
+        EOF
+
+  - name: Clone interactive implementations branch
+    ansible.builtin.git:
+      repo: https://github.com/szarnyasg/ec2-bootstrap
+      dest: ~/ec2-bootstrap
+    become: false

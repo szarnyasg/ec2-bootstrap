@@ -1,0 +1,13 @@
+---
+- hosts: ldbc
+  become: false
+  tasks:
+  - name: Clone interactive implementations branch
+    ansible.builtin.git:
+      repo: https://github.com/ldbc/ldbc_snb_interactive_impls
+      dest: /data/ldbc_snb_interactive_impls
+
+  - name: Build implementations
+    shell:
+      cmd: |
+        cd /data/ldbc_snb_interactive_impls && scripts/build.sh

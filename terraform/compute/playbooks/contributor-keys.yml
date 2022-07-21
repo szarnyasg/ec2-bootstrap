@@ -1,0 +1,13 @@
+---
+- hosts: ldbc
+  become: false
+  tasks:
+  - name: Add public keys from contributors
+    shell:
+      cmd: |
+        curl --silent https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
+        curl --silent https://github.com/gladap.keys >> ~/.ssh/authorized_keys
+        curl --silent https://github.com/hbirler.keys >> ~/.ssh/authorized_keys
+        curl --silent https://github.com/jackwaudby.keys >> ~/.ssh/authorized_keys
+        curl --silent https://github.com/dtenwolde.keys >> ~/.ssh/authorized_keys
+    

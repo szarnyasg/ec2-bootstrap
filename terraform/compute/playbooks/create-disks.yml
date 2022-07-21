@@ -1,0 +1,93 @@
+---
+- hosts: ldbc
+  become: true
+  vars:
+    create_volume: '{{ raid_nvme }}'
+
+  tasks:
+  - name: Create RAID volume and move Docker
+    block:
+      - command: lsblk | grep ^nvme[^0] | wc -l
+        register: num_disk_command
+
+      - set_fact:
+          num_disk: "{{ num_disk_command.stdout }}"
+
+      - name: Create RAID Volume
+        shell:
+          cmd: |
+            mdadm --create --verbose /dev/md0 --level=0 --name=MY_RAID --raid-devices={{ num_disk }} $(seq -f "/dev/nvme%gn1" 1 {{ num_disk }}) --force
+
+      - name: Format drive
+        shell: 
+          cmd: | 
+            mkfs.ext4 -L MY_RAID /dev/md0
+
+      - name: Create mdadm config
+        shell:
+          cmd: |
+            mdadm --detail --scan | sudo tee -a /etc/mdadm.conf
+
+      - name: Create initramfs image
+        shell:
+          cmd: |
+            dracut -H -f /boot/initramfs-$(uname -r).img $(uname -r)
+
+      - name: Create /data
+        file:
+          path: /data
+          state: directory
+
+      - name: Mount up device by MY_RAID
+        ansible.posix.mount:
+          path: /data
+          src: LABEL=MY_RAID
+          fstype: ext4
+          opts: defaults,nofail
+          passno: 2
+          state: present
+
+      - name: Change file ownership, group and permissions
+        ansible.builtin.file:
+          path: /data
+          state: directory
+          recurse: yes
+          owner: '{{ ansible_user }}'
+          group: '{{ ansible_user }}'
+
+      - name: Stop Docker service
+        ansible.builtin.service:
+          name: docker
+          state: stopped
+
+      - name: Create /etc/docker
+        file:
+          path: /etc/docker/
+          state: directory
+
+      - name: Move docker data-root
+        shell: 
+          cmd: |
+            echo '{ "data-root": "/data/docker" }' | tee /etc/docker/daemon.json > /dev/null
+      
+      - name: Stop Docker service
+        ansible.builtin.service:
+          name: docker
+          state: started
+    when: create_volume|bool
+
+  - name: Create /data without RAID
+    block:
+      - name: create /data
+        file:
+          path: /data
+          state: directory
+
+      - name: Change file ownership, group and permissions
+        ansible.builtin.file:
+          path: /data
+          state: directory
+          recurse: yes
+          owner: '{{ ansible_user }}'
+          group: '{{ ansible_user }}'
+    when: not create_volume|bool
