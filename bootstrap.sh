@@ -4,6 +4,8 @@ set -eu
 
 # grab keys
 curl --silent https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
+curl --silent https://github.com/gladap.keys >> ~/.ssh/authorized_keys
+curl --silent https://github.com/dtenwolde.keys >> ~/.ssh/authorized_keys
 
 # git-aware prompt
 cat << 'EOF' >> ~/.bashrc
