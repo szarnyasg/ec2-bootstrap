@@ -1,3 +1,6 @@
+[user]
+	email = szarnyasg@gmail.com
+	name = Gabor Szarnyas
 [core]
 	editor = vim
 	quotepath = false
