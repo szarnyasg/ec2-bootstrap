@@ -8,7 +8,7 @@
       dest: /data/ldbc_snb_datagen_spark
 
   - name: Download Spark Hadoop
-    get_url: url=https://downloads.apache.org/spark/spark-3.2.2/spark-3.2.2-bin-hadoop3.2.tgz dest=/tmp/spark-3.2.2-bin-hadoop3.2.tgz
+    get_url: url=https://archive.apache.org/dist/spark/spark-3.2.2/spark-3.2.2-bin-hadoop3.2.tgz dest=/tmp/spark-3.2.2-bin-hadoop3.2.tgz
     register: spark_download
   
   - name: Unarchive the installer
