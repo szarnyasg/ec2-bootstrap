@@ -10,7 +10,7 @@ cat << EOF >> ~/.bashrc
 export LDBC_SNB_DRIVER_DIR=/data/ldbc_snb_interactive_driver
 EOF
 cd ldbc_snb_interactive_driver
-scripts/install-dependencies.sh
+scripts/install-dependencies-for-convert-script.sh
 cd ..
 
 git clone https://github.com/ldbc/ldbc_snb_interactive_impls
