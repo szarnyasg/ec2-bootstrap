@@ -43,7 +43,7 @@ resource "aws_route_table_association" "subnet-association" {
 }
 
 // Security Group
-resource "aws_security_group" "ingress-all-main" {
+resource "aws_security_group" "ingress-ssh" {
     name            = "allow-all-sg"
     vpc_id          = "${aws_vpc.main.id}"
     ingress {
@@ -52,6 +52,69 @@ resource "aws_security_group" "ingress-all-main" {
         ]
         from_port   = 22
         to_port     = 22
+        protocol    = "tcp"
+    }
+
+    // Terraform removes the default rule
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+
+resource "aws_security_group" "ingress-https" {
+    name            = "allow-all-sg"
+    vpc_id          = "${aws_vpc.main.id}"
+    ingress {
+        cidr_blocks = [
+            "0.0.0.0/0"
+        ]
+        from_port   = 443
+        to_port     = 443
+        protocol    = "tcp"
+    }
+
+    // Terraform removes the default rule
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+
+resource "aws_security_group" "ingress-tugraph-1" {
+    name            = "allow-tugraph-1"
+    vpc_id          = "${aws_vpc.main.id}"
+    ingress {
+        cidr_blocks = [
+            "0.0.0.0/0"
+        ]
+        from_port   = 9091
+        to_port     = 9095
+        protocol    = "tcp"
+    }
+
+    // Terraform removes the default rule
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+
+resource "aws_security_group" "ingress-tugraph-2" {
+    name            = "allow-tugraph-2"
+    vpc_id          = "${aws_vpc.main.id}"
+    ingress {
+        cidr_blocks = [
+            "0.0.0.0/0"
+        ]
+        from_port   = 7071
+        to_port     = 7075
         protocol    = "tcp"
     }
 

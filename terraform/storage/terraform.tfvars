@@ -1,3 +1,3 @@
-aws_region           = "us-east-2"
+aws_region           = "us-east-1"
 aws_profile          = "default"
-aws_bucket_name      = "ldbc-interactive-data"
+aws_bucket_name      = "ldbc-audit-interactive-data"

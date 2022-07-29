@@ -1,4 +1,4 @@
-aws_image                 = "ami-0070c5311b7677678" #"ami-086c1d77a774201ee"
+aws_image                 = "ami-0e081ed4ce61c1fb2" # Ubuntu 18.04LTS us-east-1, SSD
 aws_instance              = "t2.micro"
 aws_region                = "us-east-1"
 key_pair_name             = ""
