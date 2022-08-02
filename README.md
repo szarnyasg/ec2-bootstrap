@@ -7,7 +7,11 @@ Script to bootstrap EC2 boxes for LDBC benchmark.
 
 For `r5d` instances, use the following Fedora 34 Amazon image: `ami-086c1d77a774201ee`.
 
-For `r6id` insteances, use the following Fedora 36 Amazon image: `Fedora-Cloud-Base-36-20220727.0.x86_64-hvm-us-east-2-gp2-0` (`ami-06ac43881fbaff561`).
+For `r6id` insteances, use the following Fedora 36 Amazon image:
+
+* `Fedora-Cloud-Base-36-20220802.0.x86_64-hvm-us-east-2-standard-0` (`ami-0b46e878f9f66c4d4`)
+* `Fedora-Cloud-Base-36-20220802.0.x86_64-hvm-us-east-2-gp2-0` (`ami-0956214616aff7e01`)
+* `Fedora-Cloud-Base-36-1.5.x86_64-hvm-us-east-2-standard-0` (`ami-0ade0d6d051ddc27b`)
 
 ## Setup
 
