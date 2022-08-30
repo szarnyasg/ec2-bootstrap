@@ -1,10 +1,5 @@
-resource "azurerm_resource_group" "main" {
-    name     = "${var.name_prefix}-rg"
-    location = var.azure_region
-
-    tags = {
-        environment         = var.cost_allocation_tag
-    }
+data "azurerm_resource_group" "main" {
+    name = "ldbc-rg"
 }
 
 resource "azurerm_proximity_placement_group" "main" {
@@ -16,7 +11,6 @@ resource "azurerm_proximity_placement_group" "main" {
         environment         = var.cost_allocation_tag
     }
 }
-
 
 resource "azurerm_linux_virtual_machine" "driver" {
     name                = "${var.name_prefix}-driver"
@@ -89,4 +83,3 @@ resource "azurerm_linux_virtual_machine" "sut" {
         environment = var.cost_allocation_tag
     }
 }
-
