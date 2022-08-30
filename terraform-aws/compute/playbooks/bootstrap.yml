@@ -64,23 +64,6 @@
             state: latest
             update_cache: true
 
-      - name: Add sbt repository into sources list
-        ansible.builtin.apt_repository:
-          repo: deb https://repo.scala-sbt.org/scalasbt/debian all main
-          state: present
-          filename: sbt
-
-      - name: Add sbt_old repository into sources list
-        ansible.builtin.apt_repository:
-          repo: deb https://repo.scala-sbt.org/scalasbt/debian /
-          state: present
-          filename: sbt_old
-
-      - name: Add an Apt signing key, will not download if present
-        ansible.builtin.apt_key:
-            id: 0x2EE0EA64E40A89B84B2DF73499E82A75642AC823
-            keyserver: https://keyserver.ubuntu.com
-            state: present
 
       - name: Install required system packages
         apt:
@@ -103,7 +86,7 @@
             - zstd
             - fio
             - mdadm
-            - sbt
+            # - sbt
             state: latest
             update_cache: true
 
@@ -218,8 +201,8 @@
     shell:
       cmd: |
         cat << EOF >> ~/.bashrc
-        export BUCKET_NAME=ldbc-snb-datagen-bi-2021-07
-        export AWS_PROFILE=ldbc
+        export BUCKET_NAME=ldbc-audit-interactive-data
+        export AWS_PROFILE=default
         EOF
 
   - name: Add datagen env variables
