@@ -1,16 +1,13 @@
+# This resource uses a virtual machine resource
+resource "azurerm_mssql_virtual_machine" "sut" {
+    virtual_machine_id               = azurerm_linux_virtual_machine.sut.id
+    sql_license_type                 = var.mssql_license_type
+    sql_connectivity_port            = var.mssql_port
+    sql_connectivity_type            = var.mssql_connectivity_type
+    sql_connectivity_update_password = var.mssql_connectivity_update_password
+    sql_connectivity_update_username = var.mssql_connectivity_update_username
 
-resource "azurerm_mssql_virtual_machine" "example" {
-  virtual_machine_id               = data.azurerm_virtual_machine.example.id
-  sql_license_type                 = "PAYG"
-  r_services_enabled               = true
-  sql_connectivity_port            = 1433
-  sql_connectivity_type            = "PRIVATE"
-  sql_connectivity_update_password = "Password1234!"
-  sql_connectivity_update_username = "sqllogin"
-
-  auto_patching {
-    day_of_week                            = "Sunday"
-    maintenance_window_duration_in_minutes = 60
-    maintenance_window_starting_hour       = 2
-  }
+    tags = {
+        environment = var.cost_allocation_tag
+    }
 }
