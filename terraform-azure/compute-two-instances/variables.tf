@@ -28,9 +28,9 @@ variable "administrator_username" {
     description = "The Administrator username for the instances"
 }
 
-variable "administrator_public_key" {
+variable "administrator_public_key_path" {
     type = string
-    description = "The Administrator public key for the instances"
+    description = "The Administrator public key path to file for the instances"
 }
 
 # OS info
@@ -55,11 +55,6 @@ variable "linux_version" {
 }
 
 # Azure SQL Server VM info
-
-variable "mssql_port" {
-    type = number
-    description = "Port to use for SQL Server, e.g. 1433"
-}
 
 variable "mssql_port" {
     type = number
