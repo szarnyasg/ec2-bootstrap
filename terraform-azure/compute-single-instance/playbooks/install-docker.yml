@@ -1,0 +1,76 @@
+---
+- hosts: ldbc
+  become: true
+  tasks:
+  - name: Install docker using apt
+    block:
+    - name: Add Docker GPG apt Key
+      apt_key:
+          url: https://download.docker.com/linux/ubuntu/gpg
+          state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+          repo: deb https://download.docker.com/linux/ubuntu focal stable
+          state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+          name: docker-ce
+          state: latest
+          update_cache: true
+    when: ansible_pkg_mgr == 'apt'
+
+  - name: Install docker and docker-compose using yum
+    block:
+    - name: Install docker and docker-compose using yum
+      ansible.builtin.yum:
+        name:
+        - docker
+        - docker-compose
+        state: present
+    when: ansible_os_family == "RedHat"
+
+  - name: Adding existing user '{{ ansible_user }}' to group docker
+    user:
+        name: '{{ ansible_user }}'
+        groups: docker
+        append: yes
+        
+  - name: create /mnt
+    file:
+      path: /mnt
+      state: directory
+
+  - name: delete warning file
+    shell:
+      cmd: |
+        chattr -i /mnt/DATALOSS_WARNING_README.txt
+        rm /mnt/DATALOSS_WARNING_README.txt
+
+  - name: Change file ownership, group and permissions
+    ansible.builtin.file:
+      path: /mnt
+      state: directory
+      owner: '{{ ansible_user }}'
+      group: '{{ ansible_user }}'
+        
+  - name: Stop Docker service
+    ansible.builtin.service:
+      name: docker
+      state: stopped
+
+  - name: Create /etc/docker
+    file:
+      path: /etc/docker/
+      state: directory
+
+  - name: Move docker data-root
+    shell: 
+      cmd: |
+        echo '{ "data-root": "/data/docker" }' | tee /etc/docker/daemon.json > /dev/null
+        
+  - name: Stop Docker service
+    ansible.builtin.service:
+      name: docker
+      state: started

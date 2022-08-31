@@ -1,0 +1,23 @@
+---
+- hosts: ldbc
+  become: true
+  tasks:
+    - name: Stop Docker service
+      ansible.builtin.service:
+        name: docker
+        state: stopped
+
+    - name: Create /etc/docker
+      file:
+        path: /etc/docker/
+        state: directory
+
+    - name: Move docker data-root
+      shell: 
+        cmd: |
+          echo '{ "data-root": "/mnt/docker" }' | tee /etc/docker/daemon.json > /dev/null
+        
+    - name: Stop Docker service
+      ansible.builtin.service:
+        name: docker
+        state: started

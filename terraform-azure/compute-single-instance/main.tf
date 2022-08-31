@@ -30,6 +30,17 @@ resource "azurerm_linux_virtual_machine" "driver" {
         version   = var.linux_version
     }
 
+    provisioner "local-exec" {
+        command = <<EOT
+            sleep 30;
+            >ldbc.ini;
+            echo "[ldbc]" | tee -a ldbc.ini;
+            echo "${self.public_ip_address} ansible_user=${var.administrator_username} ansible_ssh_private_key_file=${var.administrator_public_key_path}" | tee -a ldbc.ini;
+            export ANSIBLE_HOST_KEY_CHECKING=False;
+            ansible-playbook -u ${var.administrator_username} --private-key ${var.administrator_public_key_path} -i ldbc.ini playbooks/main.yml
+            EOT
+    }
+
     tags = {
         environment = var.cost_allocation_tag
     }
