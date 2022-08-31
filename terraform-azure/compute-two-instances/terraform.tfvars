@@ -11,7 +11,7 @@ administrator_public_key_path = "~/.ssh/id_azure_tf.pub"
 
 linux_publisher = "Canonical"
 linux_offer = "UbuntuServer"
-linux_sku = "20.04-LTS"
+linux_sku = "18.04-LTS"
 linux_version = "latest"
 
 mssql_connectivity_update_password = "MySecr3tP4ssword"
