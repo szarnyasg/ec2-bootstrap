@@ -19,3 +19,9 @@ resource "azurerm_storage_account" "main" {
         environment = "LDBC"
     }
 }
+
+resource "azurerm_storage_container" "main" {
+  name                  = "ldbc-data"
+  storage_account_name  = azurerm_storage_account.main.name
+  container_access_type = "private"
+}
