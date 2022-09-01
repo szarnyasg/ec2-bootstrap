@@ -1,0 +1,93 @@
+---
+- hosts: ldbc
+  become: true
+  tasks:
+  - name: Install packages using apt
+    block:
+      - name: Install aptitude
+        apt:
+            name: aptitude
+            state: latest
+            update_cache: true
+
+      - name: Install required system packages
+        apt:
+            pkg:
+            - apt-transport-https
+            - ca-certificates
+            - curl
+            - software-properties-common
+            - python3-pip
+            - virtualenv
+            - python3-setuptools
+            - tmux
+            - wget
+            - git
+            - htop
+            - vim
+            - maven
+            - python3-pip
+            - unzip
+            - zstd
+            - fio
+            - mdadm
+            state: latest
+            update_cache: true
+    when: ansible_pkg_mgr == 'apt'
+
+  - name: Install packages using yum
+    block:
+      - name: Install required system packages
+        ansible.builtin.yum:
+            name:
+            - mc
+            - the_silver_searcher
+            - nmon
+            - bmon
+            - fzf
+            - sysstat
+            - tree
+            - nano
+            - m4
+            - make
+            - cmake
+            - automake
+            - gcc
+            - gcc-c++
+            - kernel-devel
+            - zip
+            - bc
+            - exa
+            - bat
+            - tldr
+            - python3-devel
+            state: present
+            update_cache: true
+
+      - name: Restart sysstat
+        ansible.builtin.service:
+            name: sysstat
+            state: restarted
+
+      - name: Install additional system packages
+        ansible.builtin.yum:
+            name:
+            - tmux
+            - wget
+            - wget2
+            - git
+            - htop
+            - vim
+            - maven
+            - python3-pip
+            - unzip
+            - zstd
+            - fio
+            - mdadm
+            state: present
+    when: ansible_os_family == "RedHat"
+ 
+  - name: Disable SELinux
+    shell:
+      cmd: |
+        echo "sudo setenforce 0" >> ~/.bashrc
