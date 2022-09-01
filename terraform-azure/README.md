@@ -10,6 +10,7 @@ To use this files, the following is required:
 - Azure CLI: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
 - Python: Used for Ansible
 - Ansible: installed by using e.g. `python3 -m pip install --user ansible`
+- Ansible Azure extension: installed using `ansible-galaxy collection install azure.azcollection`
 
 ## Contents
 
