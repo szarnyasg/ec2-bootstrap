@@ -91,3 +91,15 @@
     shell:
       cmd: |
         echo "sudo setenforce 0" >> ~/.bashrc
+
+
+  - name: Install pip duckDB
+    ansible.builtin.pip:
+      name: 
+        - duckdb
+
+  - name: Install pip duckDB for user
+    ansible.builtin.pip:
+      name:
+        - duckdb
+    become: false

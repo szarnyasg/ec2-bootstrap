@@ -1,8 +1,8 @@
 cost_allocation_tag = "LDBC"
 name_prefix = "ldbc"
-azure_region = "westus"
+azure_region = "eastus"
 
-driver_compute_instance = "Standard_D13_v2"
+driver_compute_instance = "Standard_E8d_v5"
 
 # VM information
 administrator_username = "ubuntu"

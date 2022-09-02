@@ -1,3 +1,3 @@
 cost_allocation_tag = "LDBC"
 name_prefix = "ldbc"
-azure_region = "westus"
+azure_region = "eastus"

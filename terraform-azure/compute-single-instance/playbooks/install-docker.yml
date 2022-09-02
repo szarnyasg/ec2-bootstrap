@@ -68,9 +68,9 @@
   - name: Move docker data-root
     shell: 
       cmd: |
-        echo '{ "data-root": "/data/docker" }' | tee /etc/docker/daemon.json > /dev/null
+        echo '{ "data-root": "/mnt/docker" }' | tee /etc/docker/daemon.json > /dev/null
         
-  - name: Stop Docker service
+  - name: Start Docker service
     ansible.builtin.service:
       name: docker
       state: started
