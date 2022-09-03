@@ -1,0 +1,11 @@
+---
+- hosts: ldbc
+  become: false
+  tasks:
+  - name: Download a file
+    azure_rm_storageblob:
+      resource_group: ldbc-rg
+      storage_account_name: ldbcscalablegraphsa
+      container: ldbc-data
+      blob: ldbc_snb_sf1.tar.gz
+      dest: /mnt/ldbc-data/ldbc_snb_sf1.tar.gz

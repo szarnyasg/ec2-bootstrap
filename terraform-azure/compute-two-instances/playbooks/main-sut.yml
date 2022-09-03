@@ -1,0 +1,4 @@
+---
+- import_playbook: bootstrap.yml
+- import_playbook: add-config-files.yml
+- import_playbook: contributor-keys.yml

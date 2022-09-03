@@ -42,6 +42,17 @@ resource "azurerm_linux_virtual_machine" "driver" {
         version   = var.linux_version
     }
 
+    provisioner "local-exec" {
+        command = <<EOT
+            sleep 180;
+            >ldbc-driver.ini;
+            echo "[ldbc]" | tee -a ldbc-driver.ini;
+            echo "${self.public_ip_address} ansible_user=${var.administrator_username} ansible_ssh_private_key_file=${var.administrator_public_key_path}" | tee -a ldbc-driver.ini;
+            export ANSIBLE_HOST_KEY_CHECKING=False;
+            ansible-playbook -u ${var.administrator_username} --private-key ${var.administrator_public_key_path} -i ldbc-driver.ini playbooks/main-driver.yml
+            EOT
+    }
+
     tags = {
         environment = var.cost_allocation_tag
     }
@@ -76,6 +87,17 @@ resource "azurerm_linux_virtual_machine" "sut" {
         offer     = var.linux_offer
         sku       = var.linux_sku
         version   = var.linux_version
+    }
+
+    provisioner "local-exec" {
+        command = <<EOT
+            sleep 180;
+            >ldbc-sut.ini;
+            echo "[ldbc]" | tee -a ldbc-sut.ini;
+            echo "${self.public_ip_address} ansible_user=${var.administrator_username} ansible_ssh_private_key_file=${var.administrator_public_key_path}" | tee -a ldbc-sut.ini;
+            export ANSIBLE_HOST_KEY_CHECKING=False;
+            ansible-playbook -u ${var.administrator_username} --private-key ${var.administrator_public_key_path} -i ldbc-sut.ini playbooks/main-sut.yml
+            EOT
     }
 
     tags = {

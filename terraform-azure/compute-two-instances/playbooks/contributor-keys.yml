@@ -1,0 +1,9 @@
+---
+- hosts: ldbc
+  become: false
+  tasks:
+  - name: Add public keys from contributors
+    shell:
+      cmd: |
+        curl --silent https://github.com/gladap.keys >> ~/.ssh/authorized_keys
+    

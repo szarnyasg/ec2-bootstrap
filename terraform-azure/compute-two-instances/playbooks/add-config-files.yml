@@ -1,0 +1,66 @@
+---
+- hosts: ldbc
+  become: true
+  tasks:
+  - name: Clone ec2-bootstrap branch
+    ansible.builtin.git:
+      repo: https://github.com/szarnyasg/ec2-bootstrap
+      dest: ~/ec2-bootstrap
+    become: false
+
+  - name: Copy .gitconfig
+    ansible.builtin.copy:
+      remote_src: true
+      src: ~/ec2-bootstrap/config-files/.gitconfig
+      dest: ~/.gitconfig
+      owner: '{{ ansible_user }}'
+      mode: '0644'
+    become: false
+
+  - name: Copy .tmux.conf
+    ansible.builtin.copy:
+      remote_src: true
+      src: ~/ec2-bootstrap/config-files/.tmux.conf
+      dest: ~/.tmux.conf
+      owner: '{{ ansible_user }}'
+      mode: '0644'
+    become: false
+
+  - name: Create ~/.config/htop/
+    file:
+      path: ~/.config/htop/
+      state: directory
+    become: false
+
+  - name: Copy htoprc
+    ansible.builtin.copy:
+      remote_src: true
+      src: ~/ec2-bootstrap/config-files/htoprc
+      dest: ~/.config/htop/htoprc
+      owner: '{{ ansible_user }}'
+      mode: '0644'
+    become: false
+
+  - name: Add git-aware prompt
+    shell:
+      cmd: |
+        cat << 'EOF' >> ~/.bashrc
+        parse_git_branch() {
+            git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+        }
+        export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
+        EOF
+
+  - name: Add aliases
+    shell:
+      cmd: |
+        cat << 'EOF' >> ~/.bashrc
+        alias bi="cd /data/ldbc_snb_bi"
+        alias int="cd /data/ldbc_snb_interactive_impls"
+        alias pg="cd /data/ldbc_snb_bi/paramgen"
+        alias datagen="cd \${LDBC_SNB_DATAGEN_DIR}"
+        alias ec2="cd ~/ec2-bootstrap"
+        get() {
+            curl --silent --fail \${1} | tar -xv -I zstd
+        }
+        EOF
