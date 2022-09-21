@@ -1,2 +1,6 @@
 .DS_Store
 terraform/compute/dev.tfvars
+*.ini
+*.hcl
+*.tfstate*
+terraform-provider-*
