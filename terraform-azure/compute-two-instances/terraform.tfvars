@@ -13,6 +13,11 @@ linux_offer     = "0001-com-ubuntu-server-focal"
 linux_sku       = "20_04-lts"
 linux_version   = "latest"
 
+sql_publisher = "MicrosoftSQLServer"
+sql_offer     = "sql2019-ubuntu2004"
+sql_sku       = "standard"
+sql_version   = "15.0.220913"
+
 mssql_connectivity_update_password = "MySecr3tP4ssword"
 mssql_connectivity_update_username = "SA"
 mssql_port = 1433

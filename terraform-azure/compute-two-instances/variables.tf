@@ -54,6 +54,27 @@ variable "linux_version" {
     description = "Version of the Linux image, e.g. latest"
 }
 
+# SQL info
+variable "sql_publisher" {
+    type = string
+    description = "Publisher of the SQL image, e.g. MicrosoftSQLServer"
+}
+
+variable "sql_offer" {
+    type = string
+    description = "Offer of the SQL image, e.g. sql2019-ubuntu2004"
+}
+
+variable "sql_sku" {
+    type = string
+    description = "SKU of the SQL image, e.g. standard"
+}
+
+variable "sql_version" {
+    type = string
+    description = "Version of the SQL image, e.g. 15.0.220913"
+}
+
 # Azure SQL Server VM info
 
 variable "mssql_port" {

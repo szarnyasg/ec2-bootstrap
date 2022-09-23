@@ -56,6 +56,10 @@ resource "azurerm_linux_virtual_machine" "driver" {
     tags = {
         environment = var.cost_allocation_tag
     }
+
+    depends_on = [
+        azurerm_linux_virtual_machine.sut, azurerm_virtual_network.main
+    ]
 }
 
 
@@ -83,15 +87,15 @@ resource "azurerm_linux_virtual_machine" "sut" {
     }
 
     source_image_reference {
-        publisher = var.linux_publisher
-        offer     = var.linux_offer
-        sku       = var.linux_sku
-        version   = var.linux_version
+        publisher = var.sql_publisher
+        offer     = var.sql_offer
+        sku       = var.sql_sku
+        version   = var.sql_version
     }
 
     provisioner "local-exec" {
         command = <<EOT
-            sleep 180;
+            sleep 300;
             >ldbc-sut.ini;
             echo "[ldbc]" | tee -a ldbc-sut.ini;
             echo "${self.public_ip_address} ansible_user=${var.administrator_username} ansible_ssh_private_key_file=${var.administrator_public_key_path}" | tee -a ldbc-sut.ini;
@@ -103,4 +107,8 @@ resource "azurerm_linux_virtual_machine" "sut" {
     tags = {
         environment = var.cost_allocation_tag
     }
+
+    depends_on = [
+        azurerm_virtual_network.main
+    ]
 }
