@@ -19,3 +19,14 @@
       dest: /usr/bin/duckdb
       mode: '0755'
       remote_src: yes
+
+  - name: Install pip duckDB
+    ansible.builtin.pip:
+      name: 
+        - duckdb
+
+  - name: Install pip duckDB for user
+    ansible.builtin.pip:
+      name:
+        - duckdb
+    become: false
