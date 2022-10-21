@@ -1,0 +1,21 @@
+---
+- hosts: ldbc
+  become: true
+  tasks:
+  - name: Get DuckDB CLI
+    get_url:
+      url: https://github.com/duckdb/duckdb/releases/download/v0.5.1/duckdb_cli-linux-amd64.zip
+      dest: /mnt/duckdb_cli-linux-amd64.zip
+
+  - name: Extract DuckDB CLI
+    ansible.builtin.unarchive:
+      src: /mnt/duckdb_cli-linux-amd64.zip
+      dest: /mnt
+      remote_src: yes
+
+  - name: Copy DuckDB to usr/bin
+    ansible.builtin.copy:
+      src: /mnt/duckdb_cli-linux-amd64/duckdb
+      dest: /usr/bin/duckdb
+      mode: '0755'
+      remote_src: yes
