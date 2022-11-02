@@ -18,3 +18,31 @@
         export LDBC_SNB_DATAGEN_DIR=/data/ldbc_snb_datagen_spark
         export LDBC_SNB_DATAGEN_MAX_MEM=10G
         EOF
+
+
+  - name: Add an Apt signing key, will not download if present
+    ansible.builtin.apt_key:
+      id: 2EE0EA64E40A89B84B2DF73499E82A75642AC823
+      state: present
+    become: true
+
+
+  - name: Add SBT Repository
+    ansible.builtin.apt_repository:
+      repo: deb https://repo.scala-sbt.org/scalasbt/debian all main
+      state: present
+      filename: sbt
+    become: true
+
+  - name: Add SBT OLD Repository
+    ansible.builtin.apt_repository:
+      repo: deb https://repo.scala-sbt.org/scalasbt/debian /
+      state: present
+      filename: sbt_old
+    become: true
+
+  - name: Update repositories cache and install "SBT" package
+    ansible.builtin.apt:
+      name: sbt
+      update_cache: yes
+    become: true

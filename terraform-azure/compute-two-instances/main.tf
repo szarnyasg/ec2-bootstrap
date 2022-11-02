@@ -22,7 +22,7 @@ resource "azurerm_linux_virtual_machine" "driver" {
     proximity_placement_group_id = azurerm_proximity_placement_group.main.id
 
     network_interface_ids = [
-        azurerm_network_interface.driver.id,
+        azurerm_network_interface.driver.id
     ]
 
     admin_ssh_key {
@@ -44,7 +44,7 @@ resource "azurerm_linux_virtual_machine" "driver" {
 
     provisioner "local-exec" {
         command = <<EOT
-            sleep 180;
+            sleep 300;
             >ldbc-driver.ini;
             echo "[ldbc]" | tee -a ldbc-driver.ini;
             echo "${self.public_ip_address} ansible_user=${var.administrator_username} ansible_ssh_private_key_file=${var.administrator_public_key_path}" | tee -a ldbc-driver.ini;
@@ -63,27 +63,30 @@ resource "azurerm_linux_virtual_machine" "driver" {
 }
 
 
-resource "azurerm_linux_virtual_machine" "sut" {
+resource "azurerm_virtual_machine" "sut" {
     name                = "${var.name_prefix}-sut"
     resource_group_name = data.azurerm_resource_group.main.name
     location            = data.azurerm_resource_group.main.location
-    size                = var.sut_compute_instance
-    admin_username      = var.administrator_username
+    vm_size                = var.sut_compute_instance
 
     proximity_placement_group_id = azurerm_proximity_placement_group.main.id
 
     network_interface_ids = [
-        azurerm_network_interface.sut.id,
+        azurerm_network_interface.sut.id
     ]
 
-    admin_ssh_key {
-        username   = var.administrator_username
-        public_key = file(var.administrator_public_key_path)
+    storage_os_disk {
+        name = "mssql-linux-disk"
+        caching              = "ReadWrite"
+        create_option     = "FromImage"
+        managed_disk_type = "Standard_LRS"
     }
 
-    os_disk {
-        caching              = "ReadWrite"
-        storage_account_type = "Standard_LRS"
+    storage_image_reference {
+        publisher = "MicrosoftSQLServer"
+        offer     = "sql2019-ubuntu2004"
+        sku       = "standard"
+        version   = "15.0.220913"
     }
 
     source_image_reference {
@@ -95,10 +98,10 @@ resource "azurerm_linux_virtual_machine" "sut" {
 
     provisioner "local-exec" {
         command = <<EOT
-            sleep 300;
+            sleep 360;
             >ldbc-sut.ini;
             echo "[ldbc]" | tee -a ldbc-sut.ini;
-            echo "${self.public_ip_address} ansible_user=${var.administrator_username} ansible_ssh_private_key_file=${var.administrator_public_key_path}" | tee -a ldbc-sut.ini;
+            echo "${azurerm_public_ip.sut.ip_address} ansible_user=${var.administrator_username} ansible_ssh_private_key_file=${var.administrator_public_key_path}" | tee -a ldbc-sut.ini;
             export ANSIBLE_HOST_KEY_CHECKING=False;
             ansible-playbook -u ${var.administrator_username} --private-key ${var.administrator_public_key_path} -i ldbc-sut.ini playbooks/main-sut.yml
             EOT

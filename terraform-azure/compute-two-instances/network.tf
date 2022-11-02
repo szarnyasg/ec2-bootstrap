@@ -35,8 +35,26 @@ resource "azurerm_network_security_group" "main-sg-ssh" {
   }
 }
 
-resource "azurerm_network_security_group" "sut-sg" {
-  name                = "${var.name_prefix}-sg-sut-ports"
+resource "azurerm_network_security_group" "main-sg-mssql" {
+  name                = "${var.name_prefix}-sg-mssql"
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+
+  security_rule {
+    name                       = "SSH"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "1443"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_network_security_group" "main-sg-neo4j" {
+  name                = "${var.name_prefix}-sg-neo4j"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
 
@@ -53,12 +71,12 @@ resource "azurerm_network_security_group" "sut-sg" {
   }
 }
 
-resource "azurerm_network_interface_security_group_association" "driver" {
+resource "azurerm_network_interface_security_group_association" "driver-sga-ssh" {
     network_interface_id      = azurerm_network_interface.driver.id
     network_security_group_id = azurerm_network_security_group.main-sg-ssh.id
 }
 
-resource "azurerm_network_interface_security_group_association" "sut" {
+resource "azurerm_network_interface_security_group_association" "sut-sga-ssh" {
     network_interface_id      = azurerm_network_interface.sut.id
     network_security_group_id = azurerm_network_security_group.sut-sg.id
 }

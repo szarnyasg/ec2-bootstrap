@@ -11,6 +11,7 @@ To use this files, the following is required:
 - Python: Used for Ansible
 - Ansible: installed by using e.g. `python3 -m pip install --user ansible`
 - Ansible Azure extension: installed using `ansible-galaxy collection install azure.azcollection`
+- Ansible General Community extension: installed using `ansible-galaxy collection install community.general`
 
 ## Contents
 
