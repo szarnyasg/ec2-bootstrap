@@ -26,7 +26,6 @@
             - htop
             - vim
             - maven
-            - python3.9
             - python3-pip
             - unzip
             - zstd
