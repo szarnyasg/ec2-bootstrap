@@ -9,6 +9,6 @@ administrator_username = "ubuntu"
 administrator_public_key_path = "~/.ssh/id_azure_tf.pub"
 
 linux_publisher = "Canonical"
-linux_offer     = "0001-com-ubuntu-server-focal"
-linux_sku       = "20_04-lts"
+linux_offer     = "0001-com-ubuntu-server-jammy"
+linux_sku       = "22_04-lts"
 linux_version   = "latest"
