@@ -11,8 +11,3 @@
     ansible.builtin.git:
       repo: https://github.com/ldbc/ldbc_snb_interactive_driver
       dest: /mnt/ldbc_snb_interactive_driver
-
-  - name: Build implementations
-    shell:
-      cmd: |
-        cd /mnt/ldbc_snb_interactive_impls && scripts/build.sh
