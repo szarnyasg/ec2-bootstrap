@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -eu
+
 # Get the oracle client
 wget https://download.oracle.com/otn_software/linux/instantclient/219000/oracle-instantclient-basic-21.9.0.0.0-1.el8.x86_64.rpm
 sudo yum install -y oracle-instantclient-basic-21.9.0.0.0-1.el8.x86_64.rpm
