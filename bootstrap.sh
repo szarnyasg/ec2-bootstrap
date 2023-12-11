@@ -36,5 +36,5 @@ echo "sudo setenforce 0" >> ~/.bashrc
 
 # grab repository
 cd ~
-git clone https://github.com/szarnyasg/ec2-bootstrap
+git clone https://github.com/dtenwolde/ec2-bootstrap
 ~/ec2-bootstrap/set-datagen-env-vars.sh
