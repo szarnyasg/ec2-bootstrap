@@ -8,6 +8,7 @@ cat config-files/.tmux.conf >> ~/.tmux.conf
 mkdir -p ~/.config/htop/
 cat config-files/htoprc >> ~/.config/htop/htoprc
 
+
 tmux new-session -s ldbc -n etc -d 'cd ~/ec2-bootstrap/ && ./install-packages.sh; bash -i'
 tmux split-window -h 'htop'
 tmux select-pane -L
