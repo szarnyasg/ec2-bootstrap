@@ -29,7 +29,7 @@ get() {
 EOF
 
 # packages
-sudo yum install -y tmux wget wget2 git docker docker-compose htop vim maven python3-pip unzip zstd fio mdadm
+sudo yum install -y tmux wget git docker htop vim maven python3-pip unzip zstd fio mdadm
 # make Docker work
 sudo gpasswd -a ${USER} docker
 

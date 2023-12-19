@@ -3,7 +3,7 @@
 set -eu
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-./create-disks.sh
+#./create-disks.sh
 
 cat config-files/.gitconfig >> ~/.gitconfig
 cat config-files/.tmux.conf >> ~/.tmux.conf
