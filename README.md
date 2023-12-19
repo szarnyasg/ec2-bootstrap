@@ -13,7 +13,7 @@ For `r6id` insteances, use the following Fedora 36 Amazon image:
 ## Setup
 
 ```bash
-curl -s https://raw.githubusercontent.com/szarnyasg/ec2-bootstrap/main/bootstrap.sh | bash && \
+curl -s https://raw.githubusercontent.com/dtenwolde/ec2-bootstrap/main/bootstrap.sh | bash && \
     ~/ec2-bootstrap/init.sh
 ```
 

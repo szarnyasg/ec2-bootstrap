@@ -3,8 +3,6 @@
 set -eu
 
 # grab keys
-curl --silent https://github.com/szarnyasg.keys >> ~/.ssh/authorized_keys
-curl --silent https://github.com/gladap.keys >> ~/.ssh/authorized_keys
 curl --silent https://github.com/dtenwolde.keys >> ~/.ssh/authorized_keys
 
 # git-aware prompt
@@ -38,5 +36,5 @@ echo "sudo setenforce 0" >> ~/.bashrc
 
 # grab repository
 cd ~
-git clone https://github.com/szarnyasg/ec2-bootstrap
+git clone https://github.com/dtenwolde/ec2-bootstrap
 ~/ec2-bootstrap/set-datagen-env-vars.sh
